@@ -1,3 +1,4 @@
+import time
 import streamlit as st
 import pandas as pd
 from data_prep import load_and_clean_data
@@ -31,6 +32,16 @@ if st.sidebar.button("Fetch Live Weather Data"):
             st.sidebar.success(f"Weather in {weather_data['City']}: {weather_data['Condition'].capitalize()}, {weather_data['Temperature (°C)']}°C")
         else:
             st.sidebar.error("Failed to load live data. Check API key.")
+
+# Live Auto-Refresh Option
+st.sidebar.header("Live Feed Settings")
+auto_refresh = st.sidebar.checkbox("Enable Live Auto-Refresh")
+refresh_interval = st.sidebar.slider("Refresh Interval (seconds)", min_value=10, max_value=300, value=60)
+
+if auto_refresh:
+    st.sidebar.info(f"Auto-refreshing active. Updating every {refresh_interval}s.")
+    time.sleep(refresh_interval)
+    st.rerun()
 
 # 1. Dataset Overview
 st.header("1. Nationwide Dataset Overview")
