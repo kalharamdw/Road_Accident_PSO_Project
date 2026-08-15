@@ -16,4 +16,3 @@ def calculate_risk_score(df):
 
 if __name__ == "__main__":
     print("Risk calculation module ready.")
-    
