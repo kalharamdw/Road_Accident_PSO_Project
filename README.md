@@ -7,7 +7,7 @@
 ## Project Background & Objectives
 Road accidents are a serious public safety issue in Sri Lanka[cite: 1]. This project addresses the challenge of analyzing historical road accident statistics across all 25 districts to identify accident hotspots[cite: 1], calculate risk scores, and prioritize dangerous locations using the **Particle Swarm Optimization (PSO)** algorithm[cite: 1].
 
----
+
 
 ## Group Members & Contributions
 
@@ -51,3 +51,8 @@ Road accidents are a serious public safety issue in Sri Lanka[cite: 1]. This pro
 2. **Activate your virtual environment:**
    ```bash
    env\Scripts\activate
+
+
+
+   DIRECT LINK 
+   http://localhost:8508/
