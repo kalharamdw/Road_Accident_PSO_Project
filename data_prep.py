@@ -1,12 +1,12 @@
 import pandas as pd
 import numpy as np
+from datetime import datetime
 
 def load_and_clean_data(filepath=None):
     """
     Loads and preprocesses road accident data covering all 25 districts of Sri Lanka
-    based on Sri Lanka Police Road Accident Statistics attributes[cite: 1].
+    featuring recent current-year (2026) timestamps.
     """
-    # Complete list of all 25 districts in Sri Lanka
     districts = [
         'Colombo', 'Gampaha', 'Kalutara', 'Kandy', 'Matale', 'Nuwara Eliya', 
         'Galle', 'Matara', 'Hambantota', 'Jaffna', 'Kilinochchi', 'Mannar', 
@@ -15,7 +15,6 @@ def load_and_clean_data(filepath=None):
         'Monaragala', 'Ratnapura', 'Kegalle'
     ]
     
-    # Approximate central latitude and longitude coordinates for each district for mapping
     coords = {
         'Colombo': (6.9271, 79.8612), 'Gampaha': (7.0873, 79.9992), 'Kalutara': (6.5854, 79.9607),
         'Kandy': (7.2906, 80.6337), 'Matale': (7.4675, 80.6234), 'Nuwara Eliya': (6.9497, 80.7891),
@@ -29,14 +28,18 @@ def load_and_clean_data(filepath=None):
     }
 
     np.random.seed(42)
-    n_records = 500  # Scaled dataset size for comprehensive analysis
+    n_records = 600
+    
+    # Target current year 2026 for recent accident logs
+    current_year = 2026
+    start_date = f'{current_year}-01-01'
     
     data = {
         'District': np.random.choice(districts, n_records),
         'Police Division': np.random.choice(['Division A', 'Division B', 'Division C', 'Division D'], n_records),
         'Road Name': np.random.choice(['A1 (Colombo-Kandy)', 'A2 (Colombo-Galle)', 'A3 (Paliyagoda-Puttalam)', 'A9 (Kandy-Jaffna)', 'B154'], n_records),
-        'Date': pd.date_range(start='2025-01-01', periods=n_records, freq='h').strftime('%Y-%m-%d'),
-        'Time': pd.date_range(start='2025-01-01', periods=n_records, freq='h').strftime('%H:%M'),
+        'Date': pd.date_range(start=start_date, periods=n_records, freq='h').strftime('%Y-%m-%d'),
+        'Time': pd.date_range(start=start_date, periods=n_records, freq='h').strftime('%H:%M'),
         'Weather': np.random.choice(['Clear', 'Rainy', 'Foggy', 'Windy'], n_records),
         'Vehicle Type': np.random.choice(['Bus', 'Car', 'Three-Wheeler', 'Motorbike', 'Lorry'], n_records),
         'Accident Cause': np.random.choice(['Speeding', 'Careless Driving', 'Mechanical Failure', 'Fatigue'], n_records),
@@ -46,18 +49,12 @@ def load_and_clean_data(filepath=None):
     }
     
     df = pd.DataFrame(data)
-    
-    # Map coordinates with slight random jitter to spread points across districts
     df['Latitude'] = df['District'].map(lambda d: coords[d][0] + np.random.normal(0, 0.05))
     df['Longitude'] = df['District'].map(lambda d: coords[d][1] + np.random.normal(0, 0.05))
-    
-    # Aggregate basic accident counts per record representation
     df['Number_of_Accidents'] = 1 
-    
-    # Pre-processing: Fill missing values[cite: 1]
     df.fillna(0, inplace=True)
     return df
 
 if __name__ == "__main__":
     df = load_and_clean_data()
-    print(f"Loaded records for all districts. Total rows: {len(df)}")
+    print(f"Loaded 2026 accident records. Total rows: {len(df)}")
